@@ -1,58 +1,50 @@
-const path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = [{
-    entry: {
-        "quill.imageUploader": "./src/quill.imageUploader.js",
-        demo: "./src/demo.js",
+  entry: {
+    'dist/imageUploader': './src/quill.imageUploader.js',
+    'demo/demo': './src/demo.js',
+  },
+  output: {
+    filename: '[name].js',
+    path: __dirname,
+  },
+  devServer: {
+    // contentBase: './src',
+    https: true,
+  },
+  externals: {
+    quill: 'Quill',
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        extractComments: true,
+        parallel: true,
+        terserOptions: {
+          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+          compress: {
+            drop_console: false,
+          },
+        },
+      }),
+      new CssMinimizerPlugin(),
+    ],
+  },
+  module: {
+    rules: [{
+      test: /\.css$/,
+      use: [MiniCssExtractPlugin.loader, 'css-loader'],
     },
-    output: {
-        filename: "[name].min.js",
-        path: path.resolve(__dirname, "dist"),
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: 'babel-loader',
     },
-    devServer: {
-        //contentBase: './src',
-        https: true,
-    },
-    externals: {
-        quill: "Quill",
-    },
-    optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                extractComments: true,
-                cache: true,
-                parallel: true,
-                sourceMap: true, // Must be set to true if using source-maps in production
-                terserOptions: {
-                    // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-                    extractComments: "all",
-                    compress: {
-                        drop_console: false,
-                    },
-                },
-            }),
-        ],
-    },
-    module: {
-        rules: [{
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: "css-loader",
-                    }, ],
-                }),
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                },
-            },
-        ],
-    },
-    plugins: [new ExtractTextPlugin("quill.imageUploader.min.css")],
-}, ];
+    ],
+  },
+  plugins: [new MiniCssExtractPlugin()],
+}];

@@ -28,7 +28,7 @@
     "image",
     "upload"
   ],
-  "author": "",
+  "author": "Tofandel",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "7.20.12",

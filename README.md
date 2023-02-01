@@ -1,4 +1,4 @@
-# Quill ImageHandler Module
+# Quill FileUploader Module
 
 A module for Quill rich text editor to allow images and audio to be uploaded to a server instead of being base64 encoded. Replaces the image button provided by quill, also handles drag, dropped and pasted images.
 

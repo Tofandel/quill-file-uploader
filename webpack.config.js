@@ -19,7 +19,12 @@ module.exports = [{
     https: true,
   },
   externals: {
-    quill: 'Quill',
+    quill: {
+      root: 'Quill',
+      commonjs: 'quill',
+      commonjs2: 'quill',
+      window: 'Quill'
+    },
     'quill-file-uploader': 'fileUploader'
   },
   optimization: {

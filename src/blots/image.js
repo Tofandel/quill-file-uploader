@@ -1,30 +1,70 @@
 import Quill from "quill";
 
-const InlineBlot = Quill.import("blots/block");
+const Embed = Quill.import("blots/embed");
+const ImageBlot = Quill.import("formats/image");
 
-class LoadingImage extends InlineBlot {
-    static create(src) {
-        const node = super.create(src);
-        if (src === true) return node;
-
-        const image = document.createElement("img");
-        image.setAttribute("src", src);
-        node.appendChild(image);
-        return node;
-    }
-    deleteAt(index, length) {
-        super.deleteAt(index, length);
-        this.cache = {};
-    }
-    static value(domNode) {
-        const { src, custom } = domNode.dataset;
-        return { src, custom };
-    }
+class Image extends ImageBlot {
+  // Override default image blot as it doesn't support blob urls
+  static sanitize(url) {
+    return url
+  }
 }
 
-LoadingImage.blotName = "imageBlot";
-LoadingImage.className = "image-uploading";
-LoadingImage.tagName = "span";
-Quill.register({ "formats/imageBlot": LoadingImage });
+const ATTRIBUTES = [
+  'id',
+  'src'
+];
 
-export default LoadingImage;
+class LoadingImage extends Embed {
+  static blotName = 'image/loading';
+  static className = 'uploading-image';
+  static tagName = 'span';
+
+  static create({id, src}) {
+    const node = super.create();
+    node.id = id;
+    node.append(this.maker(src))
+    return node;
+  }
+
+  static maker(src) {
+    return Image.create(src)
+  }
+
+  static value(domNode) {
+    return domNode.querySelector('[src]').getAttribute('src');
+  }
+
+  static formats(domNode) {
+    return ATTRIBUTES.reduce(function(formats, attribute) {
+      if (domNode.hasAttribute(attribute)) {
+        formats[attribute] = domNode.getAttribute(attribute);
+      }
+      return formats;
+    }, {});
+  }
+
+  format(name, value) {
+    if (ATTRIBUTES.indexOf(name) > -1) {
+      if (value) {
+        this.domNode.setAttribute(name, value);
+      } else {
+        this.domNode.removeAttribute(name);
+      }
+    } else {
+      super.format(name, value);
+    }
+  }
+}
+
+const register = () => {
+  Quill.register('formats/image', Image, true);
+  Quill.register({"formats/image/loading": LoadingImage});
+}
+
+export {
+  Image,
+  LoadingImage,
+};
+
+export default register;

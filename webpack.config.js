@@ -4,7 +4,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = [{
   entry: {
-    'dist/imageUploader': './src/quill.imageUploader.js',
+    'dist/imageUploader': './src/main.js',
     'demo/demo': './src/demo.js',
   },
   output: {
@@ -36,8 +36,8 @@ module.exports = [{
   },
   module: {
     rules: [{
-      test: /\.css$/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      test: /\.s[ac]ss$/,
+      use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
     },
     {
       test: /\.js$/,

@@ -1,5 +1,6 @@
 {
+  "parser": "@babel/eslint-parser",
   "rules": {
-    "no-plusplus": ["warn",{"allowForLoopAfterthoughts": true}]
+    "no-plusplus": ["off"]
   }
 }

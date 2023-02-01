@@ -59,7 +59,7 @@ class LoadingImage extends Embed {
 
 const register = () => {
   Quill.register('formats/image', Image, true);
-  Quill.register({"formats/image/loading": LoadingImage});
+  Quill.register({'formats/image/loading': LoadingImage});
 }
 
 export {

@@ -20,7 +20,7 @@ const quill = new Quill("#editor", {
       upload: (file) => {
         return new Promise((resolve, reject) => {
           if (file) {
-            setTimeout(() => resolve(URL.createObjectURL(file)), 20000);
+            setTimeout(() => resolve(URL.createObjectURL(file)), 2000);
           } else {
             reject("No file selected");
           }

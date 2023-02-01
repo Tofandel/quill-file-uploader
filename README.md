@@ -4,7 +4,7 @@ A module for Quill rich text editor to allow images and audio to be uploaded to 
 
 ## Demo
 
-![Image of Yaktocat](/static/quill-example.gif)
+![Uploader demo](/static/quill-example.gif)
 
 ### Install
 

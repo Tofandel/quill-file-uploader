@@ -3,14 +3,16 @@ import registerImage from "./blots/image";
 import registerAudio from "./blots/audio";
 
 class FileUploader {
+  static register() {
+    registerImage();
+    registerAudio();
+  }
+
   constructor(quill, options) {
     this.quill = quill;
     this.increment = 0;
     this.options = options;
     this.placeholderDelta = null;
-
-    registerImage();
-    registerAudio();
 
     if (typeof this.options.upload !== 'function') {
       console.warn(

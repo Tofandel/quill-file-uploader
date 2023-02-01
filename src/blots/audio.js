@@ -43,7 +43,7 @@ class LoadingAudio extends LoadingImage {
 
 const register = () => {
   Quill.register('formats/audio', Audio, true);
-  Quill.register({"formats/audio/loading": LoadingAudio});
+  Quill.register({'formats/audio/loading': LoadingAudio});
 }
 
 export {

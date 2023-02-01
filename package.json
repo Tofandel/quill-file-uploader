@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.4.2",
+  "version": "1.4.4",
   "repository": "https://github.com/tofandel/quill-file-uploader.git",
   "description": "A module for Quill rich text editor to allow images to be uploaded to a server instead of being base64 encoded",
   "main": "dist/fileUploader.js",

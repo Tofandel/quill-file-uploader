@@ -27,6 +27,7 @@ coverage
 bower_components
 
 dist
+demo
 
 # node-waf configuration
 .lock-wscript

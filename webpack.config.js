@@ -1,13 +1,16 @@
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = [{
   entry: {
-    'dist/imageUploader': './src/main.js',
-    'demo/demo': './src/demo.js',
+    'dist/fileUploader': './src/main.js',
+    'demo/demo': './src/demo/demo.js',
   },
   output: {
+    library: 'fileUploader',
+    libraryTarget: 'umd',
     filename: '[name].js',
     path: __dirname,
   },
@@ -17,6 +20,7 @@ module.exports = [{
   },
   externals: {
     quill: 'Quill',
+    'quill-file-uploader': 'fileUploader'
   },
   optimization: {
     minimize: true,
@@ -46,5 +50,8 @@ module.exports = [{
     },
     ],
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [new MiniCssExtractPlugin(), new HtmlWebpackPlugin({
+    template: './src/demo/demo.html',
+    filename: 'demo/demo.html'
+  })],
 }];

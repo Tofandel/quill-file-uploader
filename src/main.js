@@ -1,9 +1,8 @@
 import './main.scss';
-import Emitter from "quill/core/emitter";
 import registerImage from "./blots/image";
 import registerAudio from "./blots/audio";
 
-class ImageUploader {
+class FileUploader {
   constructor(quill, options) {
     this.quill = quill;
     this.increment = 0;
@@ -140,9 +139,9 @@ class ImageUploader {
 
   // Insert placeholder and return it's delta future deletion
   insertBlot(url, position, type) {
-    const delta = this.quill.insertEmbed(position, type + '/loading', {id: 'loading-'+this.increment++, src: url}, Emitter.sources.USER)
+    const delta = this.quill.insertEmbed(position, type + '/loading', {id: 'loading-'+this.increment++, src: url}, 'user')
 
-    this.quill.setSelection(position + 1, 1, Emitter.sources.USER)
+    this.quill.setSelection(position + 1, 1, 'user')
 
     return delta;
   }
@@ -151,7 +150,7 @@ class ImageUploader {
     // Delete the placeholder image
     let position = this.removeBlot(placeholder);
     // Insert the server saved image
-    this.quill.insertEmbed(position, type, url, Emitter.sources.API);
+    this.quill.insertEmbed(position, type, url, 'api');
   }
 
   removeBlot(placeholder) {
@@ -167,11 +166,11 @@ class ImageUploader {
       accu += typeof op.insert === "string" ? op.insert.length : 1
       return JSON.stringify(op) === placeholder
     })) {
-      this.quill.deleteText(accu, 1, Emitter.sources.API);
+      this.quill.deleteText(accu, 1, 'api');
     }
 
     return accu;
   }
 }
 
-export default ImageUploader;
+export default FileUploader;

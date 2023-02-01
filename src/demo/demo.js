@@ -1,23 +1,22 @@
 import Quill from "quill";
-import ImageUploader from "./main.js";
+import FileUploader from "quill-file-uploader";
 
 Quill.debug("warn");
-Quill.register("modules/imageUploader", ImageUploader);
+Quill.register("modules/fileUploader", FileUploader);
 
 const fullToolbarOptions = [
   [{header: [1, 2, 3, false]}],
   ["bold", "italic"],
   ["clean"],
   ["image"],
-  ["audio"]
 ];
-var quill = new Quill("#editor", {
+const quill = new Quill("#editor", {
   theme: "snow",
   modules: {
     toolbar: {
       container: fullToolbarOptions,
     },
-    imageUploader: {
+    fileUploader: {
       upload: (file) => {
         return new Promise((resolve, reject) => {
           if (file) {

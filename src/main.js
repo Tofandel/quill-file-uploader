@@ -124,7 +124,9 @@ class FileUploader {
       const pos = this.quill.getSelection().index;
       let placeholder = null;
       const blotType = file.type.match(/^(.*)\//i)[1];
-      placeholder = this.insertBlot(URL.createObjectURL(file), pos, blotType);
+      if (!this.options.skipLoader) {
+        placeholder = this.insertBlot(URL.createObjectURL(file), pos, blotType);
+      }
 
       this.options.upload(file, blotType).then(
         (uploadedUrl) => {
@@ -157,7 +159,7 @@ class FileUploader {
 
   removeBlot(placeholder) {
     if (!placeholder)
-      return
+      return this.quill.getSelection().index
     const delta = this.quill.getContents()
     placeholder = JSON.stringify(placeholder.ops[placeholder.ops.length - 1])
 

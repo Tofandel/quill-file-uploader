@@ -6,6 +6,7 @@ const Embed = Quill.import("blots/embed");
 class Audio extends Embed {
   static blotName = 'audio';
   static tagName = 'span'
+  static className = 'ql-audio'
 
   static create(src) {
     const node = super.create();
@@ -16,7 +17,7 @@ class Audio extends Embed {
   }
 
   static value(domNode) {
-    return domNode.querySelector('[src]').getAttribute('src');
+    return domNode.querySelector('audio')?.getAttribute('src');
   }
 
   static maker(src) {
